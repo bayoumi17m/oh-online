@@ -86,6 +86,12 @@ OR
 ### The Test Pyramid
 
 ## Deployment
+We write the full details of how
+
+## Encryption of Secrets
+Although github uses libsodium to encrypt our secrets, we don't rely on just
+their encryption scheme and perform our own encryption of secrets as well.
+The general steps are listed within the deployment folder in [Encryption.md](./deployment/Encryption.md).
 
 ### Kubernetes
 
