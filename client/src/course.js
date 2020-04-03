@@ -19,208 +19,261 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
 import styles from './environment.module.css';
-import data from './Student';
+import info from './Student';
+
+import { useQuery, useSubscription } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
+const queue_query = gql`
+query getPos($netID: String!, $courseID: String!) {
+    queuePos(netid: $netID, courseId: $courseID)
+}
+`;
+
+const queue_sub = gql`
+subscription queueSub($courseID: String){
+    queueLen(courseId: $courseID)
+}
+`
+
+const count_sub = gql`
+subscription countSub($time: Int){
+    countSeconds(upTo: $time)
+}
+`
 
 /* Display Course page after selecting a course */
 export default function Course(props) {
-  /* Arbitrary json file just to test and learn data-driven principles */
-  const classList = data.Courses;
-  const getID = classList.map(course => { if (course.name.split(' ').join('') == props.id) return (course.name) });
-  const getActive = classList.map(course => {
-    if (course.name.split(' ').join('') == props.id) return (
-      <Typography>{course.active}</Typography>
-    );
-  })
+    /* Arbitrary json file just to test and learn data-driven principles */
+    const { data, loading, error } = useQuery(queue_query, {
+        variables: { netID: "mb2363", courseID: props.id }
+    });
+    // console.log(data);
 
-  const staff = classList.map(course => {
-    if (course.name.split(' ').join('') == props.id) return (
-      course.Staff.map(staffer => {
-        if (staffer.status == "active") {
-          return (
-            <Typography>{staffer.name}</Typography>
-          );
-        }
-      })
-    );
-  })
-  const news = classList.map(course => {
-    if (course.name.split(' ').join('') == props.id) return (
-      <Typography>{course.News}</Typography>
-    );
-  })
+    const sub = useSubscription(queue_sub, {
+        variables: { courseID: props.id }
+    });
 
-  return (
-    <React.Fragment>
-      {/* Header of Body */}
-      <Container maxWidth="lg" className={styles.container}>
-        <Typography component="p" variant="h5">
-          {getID}
+    const sub2 = useSubscription(count_sub, {
+        variables: { time: parseInt(props.id.slice(-4), 10) }
+    });
+
+    const sub_data = sub.data;
+    // const sub_load = sub.loading;
+    const sub_error = sub.error;
+    if (sub_error) {
+        console.log(`Error! ${sub_error.message}`);
+    } else {
+        console.log(sub_data);
+    }
+
+    if (loading) { console.log("wack1"); return "Loading..." };
+    if (sub2.loading) { console.log("wack2"); return "Loading..." };
+    if (sub2.error) return `Error! ${error.message}`;
+    // if (sub_error) return `Error! ${sub_error.message}`;
+
+    // console.log("Next step");
+    // console.log(sub_data);
+
+
+    const classList = info.Courses;
+    const getID = classList.map(course => { if (course.name.split(' ').join('') == props.id) return (course.name) });
+    const getActive = classList.map(course => {
+        if (course.name.split(' ').join('') == props.id) return (
+            <Typography>{course.active}</Typography>
+        );
+    })
+
+    const staff = classList.map(course => {
+        if (course.name.split(' ').join('') == props.id) return (
+            course.Staff.map(staffer => {
+                if (staffer.status == "active") {
+                    return (
+                        <Typography>{staffer.name}</Typography>
+                    );
+                }
+            })
+        );
+    });
+    const news = classList.map(course => {
+        if (course.name.split(' ').join('') == props.id) return (
+            <Typography>{course.News}</Typography>
+        );
+    });
+
+    return (
+        <React.Fragment>
+            {/* Header of Body */}
+            <Container maxWidth="lg" className={styles.container}>
+                <Typography component="p" variant="h5">
+                    {getID}
+                </Typography>
+                <Divider orientation="horizontal" variant="fullWidth" />
+                <Typography component="p" variant="h6">
+                    Spring 2020
         </Typography>
-        <Divider orientation="horizontal" variant="fullWidth" />
-        <Typography component="p" variant="h6">
-          Spring 2020
-        </Typography>
-        <Grid container spacing={1} xs={12} justify="center" className={styles.container}>
-          {/* Raising/Lowering Hand Card */}
-          <Grid item spacing={3} xs={4}>
-            <RaiseHand id={props.id} />
-          </Grid>
-        </Grid>
+                <Grid container spacing={1} xs={12} justify="center" className={styles.container}>
+                    {/* Raising/Lowering Hand Card */}
+                    <Grid item spacing={3} xs={4}>
+                        <RaiseHand id={props.id} queuePos={sub2.data.countSeconds} />
+                    </Grid>
+                </Grid>
 
-        {/* Everything Below Queue card (i.e. Active Staff, News Feed) */}
-        <Grid container spacing={2} justify="left" className={styles.container}>
-          <PersonIcon fontSize="large" />
-          <Grid item spacing={3} xs={4}>
-            <div className={styles.header}>
-              <Typography >Staff Activity</Typography>
-              <Divider orientation="horizontal" variant="fullWidth" />
-            </div>
-          </Grid>
-          <Grid item spacing={3} xs={3}>
-          </Grid>
-          <AnnouncementIcon fontSize="large" />
-          <Grid item spacing={3} xs={4}>
-            <div className={styles.header}>
-              <Typography>News Feed</Typography>
-              <Divider orientation="horizontal" variant="fullWidth" />
-            </div>
-          </Grid>
-        </Grid>
-        <Grid container spacing={1} alignItems="stretch" justify="left" className={styles.container}>
-          <Grid item xs={2}>
-            <div>
-              <Typography>Available Staff: </Typography>
-              {getActive}
-            </div>
-          </Grid>
-          <Grid item xs={1} alignItems="stretch">
-            <Divider orientation="vertical" />
-          </Grid>
-          <Grid item xs={2}>
-            {staff}
-          </Grid>
-          <Grid item xs={3}>
-            {/* Arbitrary Button with Zoom Link Popup Dialog */}
-            <LaunchZoom />
-          </Grid>
-          <Grid item xs={3}>
-            {news}
-          </Grid>
-        </Grid>
-      </Container>
-    </React.Fragment>
-  );
+                {/* Everything Below Queue card (i.e. Active Staff, News Feed) */}
+                <Grid container spacing={2} justify="left" className={styles.container}>
+                    <PersonIcon fontSize="large" />
+                    <Grid item spacing={3} xs={4}>
+                        <div className={styles.header}>
+                            <Typography >Staff Activity</Typography>
+                            <Divider orientation="horizontal" variant="fullWidth" />
+                        </div>
+                    </Grid>
+                    <Grid item spacing={3} xs={3}>
+                    </Grid>
+                    <AnnouncementIcon fontSize="large" />
+                    <Grid item spacing={3} xs={4}>
+                        <div className={styles.header}>
+                            <Typography>News Feed</Typography>
+                            <Divider orientation="horizontal" variant="fullWidth" />
+                        </div>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={1} alignItems="stretch" justify="left" className={styles.container}>
+                    <Grid item xs={2}>
+                        <div>
+                            <Typography>Available Staff: </Typography>
+                            {getActive}
+                        </div>
+                    </Grid>
+                    <Grid item xs={1} alignItems="stretch">
+                        <Divider orientation="vertical" />
+                    </Grid>
+                    <Grid item xs={2}>
+                        {staff}
+                    </Grid>
+                    <Grid item xs={3}>
+                        {/* Arbitrary Button with Zoom Link Popup Dialog */}
+                        <LaunchZoom />
+                    </Grid>
+                    <Grid item xs={3}>
+                        {news}
+                    </Grid>
+                </Grid>
+            </Container>
+        </React.Fragment>
+    );
 }
 
 /* Changes Button and Launches Form for Raising Hand and getting help. Also
    will handle Lowering Hand */
 
 function LaunchZoom() {
-  const [ready, setReady] = React.useState(false)
-  const handleOpen = () => {
-    setReady(true);
-  }
-  const handleClose = () => {
-    setReady(false);
-  }
-  return (
-    <React.Fragment>
-      <Button variant="contained" color="primary" onClick={handleOpen}>
-        Join the Zoom call!
+    const [ready, setReady] = React.useState(false)
+    const handleOpen = () => {
+        setReady(true);
+    }
+    const handleClose = () => {
+        setReady(false);
+    }
+    return (
+        <React.Fragment>
+            <Button variant="contained" color="primary" onClick={handleOpen}>
+                Join the Zoom call!
       </Button>
-      <Dialog
-        open={ready}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description">
-        <DialogTitle id="alert-dialog-title">{"Help is here!"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Click the zoom link below and have your question answered:
-            zoom.blah.us.com
+            <Dialog
+                open={ready}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description">
+                <DialogTitle id="alert-dialog-title">{"Help is here!"}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Click the zoom link below and have your question answered:
+                        zoom.blah.us.com
                 </DialogContentText>
-        </DialogContent>
-      </Dialog>
-    </React.Fragment>
-  );
+                </DialogContent>
+            </Dialog>
+        </React.Fragment>
+    );
 }
 
 function RaiseHand(props) {
-  const classList = data.Courses;
+    const classList = info.Courses;
 
-  const useStyles = makeStyles(() => ({
-    students: {
-      display: 'inline',
-    },
-    queue: {
-      display: 'block',
-      paddingBottom: 8,
-    },
-    hidden: {
-      display: 'none',
-    },
-    hiddenQueue: {
-      paddingBottom: 0,
+    const useStyles = makeStyles(() => ({
+        students: {
+            display: 'inline',
+        },
+        queue: {
+            display: 'block',
+            paddingBottom: 8,
+        },
+        hidden: {
+            display: 'none',
+        },
+        hiddenQueue: {
+            paddingBottom: 0,
+        }
+    }));
+    const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+    const [hand, setHand] = React.useState("Raise Hand");
+    const [raised, setRaise] = React.useState(false)
+    const Lower = () => {
+        { setOpen(false); setRaise(false); setHand("Raise Hand"); }
     }
-  }));
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-  const [hand, setHand] = React.useState("Raise Hand");
-  const [raised, setRaise] = React.useState(false)
-  const Lower = () => {
-    { setOpen(false); setRaise(false); setHand("Raise Hand"); }
-  }
-  const Raise = () => {
-    { setOpen(false); setRaise(true); setHand("Lower Hand"); }
-  }
-  const ChangeStatus = () => {
-    if (raised == false) setOpen(true);
-    else Lower();
-  }
-  const getQueue = classList.map(course => {
-    if (course.name.split(' ').join('') == props.id) return (
-      course.Queue
-    );
-  })
-  const addQueue = classList.map(course => {
-    if (course.name.split(' ').join('') == props.id) return (
-      course.Queue + 1
-    );
-  })
-  /* Dialog Form for Queueing */
-  return (
-    <React.Fragment>
-      <Card variant="outlined" className={styles.card}>
-        <CardContent className={styles.alignment}>
-          <Typography>Raise your hand if you need help. A short form will have to be filled.</Typography>
-          <Typography className={clsx(classes.queue, raised && classes.hiddenQueue)}>Waiting Students: {getQueue}</Typography>
-          <Typography className={clsx(!raised && classes.hidden, raised && classes.queue)}>Your position in Queue is: {addQueue}</Typography>
-          <Button variant="contained" color="primary" id="hand" value="lowered hand" onClick={ChangeStatus}>
-            {hand}
-          </Button>
-          <Dialog open={open} aria-labelledby="form-dialog-title">
-            <DialogTitle id="form-dialog-title">Question</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Please fill out the sections below so that your TA can better help you.
+    const Raise = () => {
+        { setOpen(false); setRaise(true); setHand("Lower Hand"); }
+    }
+    const ChangeStatus = () => {
+        if (raised == false) setOpen(true);
+        else Lower();
+    }
+    const getQueue = props.queuePos;
+    // classList.map(course => {
+    //     if (course.name.split(' ').join('') == props.id) return (
+    //         course.Queue
+    //     );
+    // })
+    const addQueue = classList.map(course => {
+        if (course.name.split(' ').join('') == props.id) return (
+            course.Queue + 1
+        );
+    })
+    /* Dialog Form for Queueing */
+    return (
+        <React.Fragment>
+            <Card variant="outlined" className={styles.card}>
+                <CardContent className={styles.alignment}>
+                    <Typography>Raise your hand if you need help. A short form will have to be filled.</Typography>
+                    <Typography className={clsx(classes.queue, raised && classes.hiddenQueue)}>Waiting Students: {getQueue}</Typography>
+                    <Typography className={clsx(!raised && classes.hidden, raised && classes.queue)}>Your position in Queue is: {addQueue}</Typography>
+                    <Button variant="contained" color="primary" id="hand" value="lowered hand" onClick={ChangeStatus}>
+                        {hand}
+                    </Button>
+                    <Dialog open={open} aria-labelledby="form-dialog-title">
+                        <DialogTitle id="form-dialog-title">Question</DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                Please fill out the sections below so that your TA can better help you.
               </DialogContentText>
-              <TextField
-                autoFocus
-                margin="dense"
-                fullWidth />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={Lower} color="primary">
-                Cancel
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                fullWidth />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={Lower} color="primary">
+                                Cancel
           </Button>
-              <Button onClick={Raise} color="primary">
-                Submit
+                            <Button onClick={Raise} color="primary">
+                                Submit
           </Button>
-            </DialogActions>
-          </Dialog>
-        </CardContent>
-      </Card>
-    </React.Fragment >
-  );
+                        </DialogActions>
+                    </Dialog>
+                </CardContent>
+            </Card>
+        </React.Fragment >
+    );
 }
 
