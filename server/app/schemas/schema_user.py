@@ -11,7 +11,7 @@ import utils
 class UserAttributes:
     # user_id = graphene.String(description="Global ID of the user")
     netid = graphene.String(description="NetID of the user")
-    ta_course_id = graphene.Int(description="Course ID of course that they TA")
+    ta_course_id = graphene.String(description="Course ID of course that they TA")
     zoom_link = graphene.String(description="Most recent zoom link being used by user")
 
 

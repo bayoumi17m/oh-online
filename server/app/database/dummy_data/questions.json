@@ -2,7 +2,7 @@
     {
         "id": "1",
         "netid": "mb2363",
-        "course_id": "1",
+        "course_id": "CS2800",
         "time_posted": "2020-04-01 16:06:56.760967",
         "time_started": "2020-04-01 16:06:56.760967",
         "time_completed": "2020-04-01 16:11:56.760967",
@@ -12,7 +12,7 @@
     {
         "id": "2",
         "netid": "mb2363",
-        "course_id": "1",
+        "course_id": "CS2800",
         "time_posted": "2020-04-01 16:15:56.760967",
         "time_started": "2020-04-01 16:16:36.760967",
         "time_completed": "NA",
@@ -22,7 +22,17 @@
     {
         "id": "3",
         "netid": "cjw322",
-        "course_id": "1",
+        "course_id": "CS2800",
+        "time_posted": "2020-04-01 16:16:56.760957",
+        "time_started": "NA",
+        "time_completed": "NA",
+        "queue_pos": "1",
+        "zoom_link": "cornell.zoom.us"
+    },
+    {
+        "id": "4",
+        "netid": "cjw322",
+        "course_id": "CS3110",
         "time_posted": "2020-04-01 16:16:56.760967",
         "time_started": "NA",
         "time_completed": "NA",

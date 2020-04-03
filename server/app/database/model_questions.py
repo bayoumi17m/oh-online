@@ -10,7 +10,7 @@ class QuestionModel(Base):
 
     id = Column("id", Integer, primary_key=True)
     netid = Column("user_id", String, ForeignKey('user.netid'), nullable=False)
-    course_id = Column("course_id", Integer, nullable=False)
+    course_id = Column("course_id", String, nullable=False)
     time_posted = Column("time_posted", String)
     time_started = Column("time_started", String)
     time_completed = Column("time_completed", String)

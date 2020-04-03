@@ -12,7 +12,7 @@ class UserModel(Base):
     
     id = Column("id", Integer, primary_key=True)
     netid = Column("netid", String, unique=True, nullable=False)
-    ta_course_id = Column("ta_course_id", Integer, nullable=True)
+    ta_course_id = Column("ta_course_id", String, nullable=True)
     zoom_link = Column("zoom_link", String, nullable=True)
 
     questionList = relationship(QuestionModel, backref="user")
