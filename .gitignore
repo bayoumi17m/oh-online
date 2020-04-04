@@ -104,6 +104,7 @@ dist
 # TernJS port file
 .tern-port
 
+
 ########## General ##########
 
 # AWS + Kube Secrets
@@ -112,3 +113,10 @@ dist
 **/terraform.tfstate.backup
 deployment/build_scripts/setup-secrets.sh
 deployment/build_scripts/kube-secrets.txt
+
+#pycache
+__pycache__
+
+#db
+oh.db
+tmp
