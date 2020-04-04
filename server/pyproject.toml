@@ -18,6 +18,10 @@ graphql-relay = "^2.0.1"
 flask-graphql = "^2.0.1"
 Flask-SQLAlchemy = "^2.4.1"
 graphene-sqlalchemy = "^2.2.2"
+flask_cors = "^3.0.8"
+gevent = "^1.4.0"
+flask-sockets = "^0.2.1"
+graphql-ws = "^0.3.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3"

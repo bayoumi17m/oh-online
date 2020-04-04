@@ -1,4 +1,5 @@
 [
+<<<<<<< HEAD
   {
     "id": "1",
     "netid": "mb2363",
@@ -28,3 +29,30 @@
     "courses": []
   }
 ]
+=======
+    {
+        "id": "1",
+        "netid": "mb2363",
+        "ta_course_id": "",
+        "zoom_link": "cornell.zoom.us"
+    },
+    {
+        "id": "2",
+        "netid": "cjw322",
+        "ta_course_id": "",
+        "zoom_link": "cornell.zoom.us"
+    },
+    {
+        "id": "3",
+        "netid": "hk592",
+        "ta_course_id": "CS3110",
+        "zoom_link": "cornell.zoom.us"
+    },
+    {
+        "id": "4",
+        "netid": "jen67",
+        "ta_course_id": "CS2800",
+        "zoom_link": "cornell.zoom.us"
+    }
+]
+>>>>>>> c983e7511fd9dad41c1dedb3a62619debd399662

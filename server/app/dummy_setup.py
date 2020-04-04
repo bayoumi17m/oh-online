@@ -26,7 +26,7 @@ if __name__ == '__main__':
             base.db_session.add(question)
         base.db_session.commit()
 
-    log.info('Insert People data in database')
+    log.info('Insert User data in database')
     with open('database/dummy_data/users.json', 'r') as f:
         data = literal_eval(f.read())
         for record in data:

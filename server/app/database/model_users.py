@@ -17,7 +17,11 @@ class UserModel(Base):
     
     id = Column("id", Integer, primary_key=True)
     netid = Column("netid", String, unique=True, nullable=False)
+<<<<<<< HEAD
     ta_course_id = Column("ta_course_id", Integer, ForeignKey("course.course_id"), nullable=True)
+=======
+    ta_course_id = Column("ta_course_id", String, nullable=True)
+>>>>>>> c983e7511fd9dad41c1dedb3a62619debd399662
     zoom_link = Column("zoom_link", String, nullable=True)
     courses = relationship("CourseModel", secondary=association_table, back_populates="user")
 

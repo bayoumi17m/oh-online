@@ -20,7 +20,7 @@ import styles from './environment.module.css';
 import data from './Student';
 
 import {
-  Link
+    Link
 } from "react-router-dom";
 
 
@@ -28,112 +28,112 @@ import {
 let history = createHistory();
 
 export default function Classes() {
-  /* Data-driven active courses based on dummy json file */
-  const classList = data.Courses
+    /* Data-driven active courses based on dummy json file */
+    const classList = data.Courses
 
-  function Refresh(course) {
-    history.push(course)
-    history.go(0);
-  }
+    function Refresh(course) {
+        history.push(course)
+        history.go(0);
+    }
 
-  return (
-    <Container maxWidth="lg" className={styles.container}>
-      <Typography component="p" variant="h4">
-        Active Courses
+    return (
+        <Container maxWidth="lg" className={styles.container}>
+            <Typography component="p" variant="h4">
+                Active Courses
             </Typography>
-      <Divider orientation="horizontal" variant="fullWidth" />
-      <Grid container spacing={1} xs={12}>
-        {classList.map(course => {
-          const url = course.name.split(' ').join('');
-          return (
-            < Grid item spacing={3} xs={4} >
-              <div className={styles.cards}>
-                <Link className={styles.links} onClick={() => Refresh(url)} to={{ pathname: url }} >
-                  <ClassCard class={course.name} />
-                </Link>
-              </div>
+            <Divider orientation="horizontal" variant="fullWidth" />
+            <Grid container spacing={1} xs={12}>
+                {classList.map(course => {
+                    const url = course.name.split(' ').join('');
+                    return (
+                        < Grid item spacing={3} xs={4} >
+                            <div className={styles.cards}>
+                                <Link className={styles.links} onClick={() => Refresh(url)} to={{ pathname: url }} >
+                                    <ClassCard class={course.name} />
+                                </Link>
+                            </div>
+                        </Grid>
+                    );
+                })}
+                <Grid item spacing={3} xs={4} >
+                    <div className={styles.cards}>
+                        <AddClass />
+                    </div>
+                </Grid>
             </Grid>
-          );
-        })}
-        <Grid item spacing={3} xs={4} >
-          <div className={styles.cards}>
-            <AddClass />
-          </div>
-        </Grid>
-      </Grid>
-      <Typography component="p" variant="h4">
-        Inactive Courses
+            <Typography component="p" variant="h4">
+                Inactive Courses
             </Typography>
-      <Divider orientation="horizontal" variant="fullWidth" />
-    </Container>
-  );
+            <Divider orientation="horizontal" variant="fullWidth" />
+        </Container>
+    );
 }
 
 /* Generates Class Card Based on Data */
 
 function ClassCard(props) {
-  return (
-    <React.Fragment>
-      <Card variant="outlined" className={styles.card}>
-        <CardActionArea >
-          <CardContent className={styles.alignment}>
-            <Typography>{props.class}</Typography>
-            <Typography color="textSecondary">
-              Spring 2020
+    return (
+        <React.Fragment>
+            <Card variant="outlined" className={styles.card}>
+                <CardActionArea >
+                    <CardContent className={styles.alignment}>
+                        <Typography>{props.class}</Typography>
+                        <Typography color="textSecondary">
+                            Spring 2020
             </Typography>
-            <Typography color="textSecondary">
-              Enrolled as Student
+                        <Typography color="textSecondary">
+                            Enrolled as Student
       </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </React.Fragment >
-  );
+                    </CardContent>
+                </CardActionArea>
+            </Card>
+        </React.Fragment >
+    );
 }
 
 /* Static Add Class Card */
 const AddClass = () => {
-  const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+    const handleClose = () => {
+        setOpen(false);
+    };
 
-  return (
-    <React.Fragment>
-      <Card variant="outlined" className={styles.card}>
-        <CardActionArea onClick={handleClickOpen}>
-          <CardContent className={styles.alignment}>
-            <Typography>Click to Add a Course</Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
+    return (
+        <React.Fragment>
+            <Card variant="outlined" className={styles.card}>
+                <CardActionArea onClick={handleClickOpen}>
+                    <CardContent className={styles.alignment}>
+                        <Typography>Click to Add a Course</Typography>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
 
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Adding Classes</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Please enter the enrollment pin for this class to join its office hour queue.
+            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Adding Classes</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Please enter the enrollment pin for this class to join its office hour queue.
           </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        fullWidth
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Cancel
           </Button>
-          <Button onClick={handleClose} color="primary">
-            Submit
+                    <Button onClick={handleClose} color="primary">
+                        Submit
           </Button>
-        </DialogActions>
-      </Dialog>
-    </React.Fragment>
-  );
+                </DialogActions>
+            </Dialog>
+        </React.Fragment>
+    );
 }
