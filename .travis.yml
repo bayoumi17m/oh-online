@@ -10,16 +10,16 @@ services:
 python:
 - 3.7
 before_install:
-- chmod +x ./deployment-setup/build_scripts/install-dependencies.sh
-- chmod +x ./deployment-setup/build_scripts/inject-secrets.sh
-- chmod +x ./deployment-setup/build_scripts/build-docker.sh
-- chmod +x ./deployment-setup/build_scripts/deploy-k8s.sh
+- chmod +x ./deployment/build_scripts/install-dependencies.sh
+- chmod +x ./deployment/build_scripts/inject-secrets.sh
+- chmod +x ./deployment/build_scripts/build-docker.sh
+- chmod +x ./deployment/build_scripts/deploy-k8s.sh
 install:
-- "./deployment-setup/build_scripts/install-dependencies.sh"
-- "./deployment-setup/build_scripts/inject-secrets.sh"
+- "./deployment/build_scripts/install-dependencies.sh"
+- "./deployment/build_scripts/inject-secrets.sh"
 script:
-- "./deployment-setup/build_scripts/build-docker.sh"
-- "./deployment-setup/build_scripts/deploy-k8s.sh"
+- "./deployment/build_scripts/build-docker.sh"
+- "./deployment/build_scripts/deploy-k8s.sh"
 env:
   global:
   - secure: pkJ3zi85iPswKooRbkUBJewm4h3GO6zzbF/zd1bDzgVZ3XsCjW4hyr8vNWpnp7WgUqd2LoggCY940awzaJiwJUSRLJuokEQdsZIDhhWH5ntUqeO16qIu96vAyDmF82S7vcSt858YZf80Zx185JBa8mXCMPFabP9FKRdyygOxe1QZomoj2bRT2mXao7vYfRTnGXzumaNnaqd0ZStrf9J2paAfm7yE7ipr3yL3+if+5SKb9cqQbk030iLqiBPkEBEiDcaZDHVqNS+oz/dFdDF5eIf+/WuxQihU77hs9rnz/gTS9c1lCT0Fr5G1b5DsyFtvTkwBvoY9HNVQBhrVAN4Wtlehj6PWftReohdiIrJyDo3bmJWVMOf6omxh8YiRca3idmzkZQlsVFoTocBGW5cyyAXm7BpsPmnGt+AbcLS6FfUJF9nW8A+00Xvd6zy3VsfLpCgfar408Msb4SgEWywqHi2JPkBjdA+XDFIUqGjUNIhasVOc0rz2nPfzZrE6nilpE5YIKCDWXtFLj0rjlJyaapzYpKgCMvHNWtVwGhpMkVcAZuoFQSCVRzNfMRrDjEiRusGjj/T38RBZs1wnR8013FYE7S4+YsBg2MrcQtfd+dR0Zqs+et14kufcMUSK9eLcr3R0uB6PDld9M5Nvsxd/FkL71CqS3gTwCID6biRb1Y8=
