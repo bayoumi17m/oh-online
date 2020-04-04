@@ -11,11 +11,11 @@ export $(cut -d= -f1 ./deployment/build_scripts/kube-secrets.txt)
  
  
 # Set kubernetes secrets
-./kubectl config set clusters.<Future Name Here>.certificate-authority-data $CERTIFICATE_AUTHORITY_DATA
-./kubectl config set users.<Future Name Here>.client-certificate-data "$CLIENT_CERTIFICATE_DATA"
-./kubectl config set users.<Future Name Here>.client-key-data "$CLIENT_KEY_DATA"
-./kubectl config set users.<Future Name Here>.password "$KUBE_PASSWORD"
-./kubectl config set users.<Future Name Here>.net-basic-auth.password "$KUBE_PASSWORD"
+./kubectl config set clusters.cs4300.k8s.mycourseindex.vpc.certificate-authority-data $CERTIFICATE_AUTHORITY_DATA
+./kubectl config set users.cs4300.k8s.mycourseindex.vpc.client-certificate-data "$CLIENT_CERTIFICATE_DATA"
+./kubectl config set users.cs4300.k8s.mycourseindex.vpc.client-key-data "$CLIENT_KEY_DATA"
+./kubectl config set users.cs4300.k8s.mycourseindex.vpc.password "$KUBE_PASSWORD"
+./kubectl config set users.cs4300.k8s.mycourseindex.vpc.net-basic-auth.password "$KUBE_PASSWORD"
  
 # set AWS secrets
 mkdir ~/.aws

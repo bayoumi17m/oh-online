@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: external-dns
+  name: q-external-dns
   namespace: kube-system
 spec:
   selector:
     matchLabels:
-      app: external-dns
+      app: q-external-dns
   strategy:
     type: Recreate
   template:
     metadata:
       annotations:
-        iam.amazonaws.com/role: aws iam get-role --role-name external_dns_pod_role # replace with out role
+        iam.amazonaws.com/role: arn:aws:iam::290365077634:role/external_dns_pod_role # replace with out role
       labels:
-        app: external-dns
+        app: q-external-dns
     spec:
-      serviceAccountName: external-dns
+      serviceAccountName: q-external-dns
       containers:
       - name: external-dns
         image: registry.opensource.zalan.do/teapot/external-dns:v0.4.8
         args:
         - --source=service
         - --source=ingress
-        - --domain-filter=something.com # will make ExternalDNS see only the hosted zones matching provided domain, omit to process all available hosted zones
+        - --domain-filter=ithaqueue.com # will make ExternalDNS see only the hosted zones matching provided domain, omit to process all available hosted zones
         - --provider=aws
         - --policy=upsert-only # would prevent ExternalDNS from deleting any records, omit to enable full synchronization
         - --registry=txt

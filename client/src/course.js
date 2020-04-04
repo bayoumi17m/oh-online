@@ -21,14 +21,14 @@ import TextField from '@material-ui/core/TextField';
 import styles from './environment.module.css';
 import info from './Student';
 
-import { useQuery, useSubscription } from '@apollo/react-hooks';
+import { useSubscription } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-const queue_query = gql`
-query getPos($netID: String!, $courseID: String!) {
-    queuePos(netid: $netID, courseId: $courseID)
-}
-`;
+// const queue_query = gql`
+// query getPos($netID: String!, $courseID: String!) {
+//     queuePos(netid: $netID, courseId: $courseID)
+// }
+// `;
 
 const queue_sub = gql`
 subscription queueSub($courseID: String){
@@ -36,40 +36,26 @@ subscription queueSub($courseID: String){
 }
 `
 
-const count_sub = gql`
-subscription countSub($time: Int){
-    countSeconds(upTo: $time)
-}
-`
-
 /* Display Course page after selecting a course */
 export default function Course(props) {
     /* Arbitrary json file just to test and learn data-driven principles */
-    const { data, loading, error } = useQuery(queue_query, {
-        variables: { netID: "mb2363", courseID: props.id }
-    });
+    // const queueQuery = useQuery(queue_query, {
+    //     variables: { netID: "mb2363", courseID: props.id }
+    // });
     // console.log(data);
 
     const sub = useSubscription(queue_sub, {
         variables: { courseID: props.id }
     });
 
-    const sub2 = useSubscription(count_sub, {
-        variables: { time: parseInt(props.id.slice(-4), 10) }
-    });
-
     const sub_data = sub.data;
-    // const sub_load = sub.loading;
+    const sub_load = sub.loading;
     const sub_error = sub.error;
     if (sub_error) {
         console.log(`Error! ${sub_error.message}`);
-    } else {
-        console.log(sub_data);
     }
 
-    if (loading) { console.log("wack1"); return "Loading..." };
-    if (sub2.loading) { console.log("wack2"); return "Loading..." };
-    if (sub2.error) return `Error! ${error.message}`;
+    if (sub_load) { console.log("wack1"); return "Loading..." };
     // if (sub_error) return `Error! ${sub_error.message}`;
 
     // console.log("Next step");
@@ -77,7 +63,7 @@ export default function Course(props) {
 
 
     const classList = info.Courses;
-    const getID = classList.map(course => { if (course.name.split(' ').join('') == props.id) return (course.name) });
+    const getID = props.id.slice(-4); //classList.map(course => { if (course.name.split(' ').join('') == props.id) return (course.name) });
     const getActive = classList.map(course => {
         if (course.name.split(' ').join('') == props.id) return (
             <Typography>{course.active}</Typography>
@@ -115,7 +101,7 @@ export default function Course(props) {
                 <Grid container spacing={1} xs={12} justify="center" className={styles.container}>
                     {/* Raising/Lowering Hand Card */}
                     <Grid item spacing={3} xs={4}>
-                        <RaiseHand id={props.id} queuePos={sub2.data.countSeconds} />
+                        <RaiseHand id={props.id} queuePos={sub_data.queueLen} />
                     </Grid>
                 </Grid>
 

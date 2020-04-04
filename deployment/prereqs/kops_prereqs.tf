@@ -1,41 +1,41 @@
 # Terraform configuration file to create
-# the pre-requisites for kops on AWS
+# the pre-requisites for ohkops on AWS
 
-resource "aws_iam_user" "kops" {
-  name = "kops"
+resource "aws_iam_user" "ohkops" {
+  name = "ohkops"
 }
 
-resource "aws_iam_access_key" "kops" {
-  user = "${aws_iam_user.kops.name}"
+resource "aws_iam_access_key" "ohkops" {
+  user = "${aws_iam_user.ohkops.name}"
 }
 
-resource "aws_iam_user_policy_attachment" "kops_mgd_pol_1" {
-  user       = "${aws_iam_user.kops.name}"
+resource "aws_iam_user_policy_attachment" "ohkops_mgd_pol_1" {
+  user       = "${aws_iam_user.ohkops.name}"
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
 }
 
-resource "aws_iam_user_policy_attachment" "kops_mgd_pol_2" {
-  user       = "${aws_iam_user.kops.name}"
+resource "aws_iam_user_policy_attachment" "ohkops_mgd_pol_2" {
+  user       = "${aws_iam_user.ohkops.name}"
   policy_arn = "arn:aws:iam::aws:policy/AmazonRoute53FullAccess"
 }
 
-resource "aws_iam_user_policy_attachment" "kops_mgd_pol_3" {
-  user       = "${aws_iam_user.kops.name}"
+resource "aws_iam_user_policy_attachment" "ohkops_mgd_pol_3" {
+  user       = "${aws_iam_user.ohkops.name}"
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
 
-resource "aws_iam_user_policy_attachment" "kops_mgd_pol_4" {
-  user       = "${aws_iam_user.kops.name}"
+resource "aws_iam_user_policy_attachment" "ohkops_mgd_pol_4" {
+  user       = "${aws_iam_user.ohkops.name}"
   policy_arn = "arn:aws:iam::aws:policy/IAMFullAccess"
 }
 
-resource "aws_iam_user_policy_attachment" "kops_mgd_pol_5" {
-  user       = "${aws_iam_user.kops.name}"
+resource "aws_iam_user_policy_attachment" "ohkops_mgd_pol_5" {
+  user       = "${aws_iam_user.ohkops.name}"
   policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
 }
 
-resource "aws_s3_bucket" "kops_config_bucket" {
-  bucket = "queue-kops-config"
+resource "aws_s3_bucket" "ohkops_config_bucket" {
+  bucket = "queue-ohkops-config"
   acl    = "private"
 
   versioning {
@@ -51,22 +51,22 @@ resource "aws_s3_bucket" "kops_config_bucket" {
   }
 
   tags = {
-    Name = "kops Cluster Configuration Bucket"
+    Name = "ohkops Cluster Configuration Bucket"
   }
 }
 
 resource "aws_s3_bucket_policy" "b" {
-  bucket = "${aws_s3_bucket.kops_config_bucket.id}"
+  bucket = "${aws_s3_bucket.ohkops_config_bucket.id}"
   policy = <<POLICY
 {
 	"Version": "2012-10-17",
 	"Statement": [
 		{
-				"Sid": "Allow kops user access to k8s cluster configuration bucket",
+				"Sid": "Allow ohkops user access to k8s cluster configuration bucket",
 				"Effect": "Allow",
 				"Principal": {
 						"AWS": [
-								"${aws_iam_user.kops.arn}"
+								"${aws_iam_user.ohkops.arn}"
 						]
 				},
 				"Action": [
@@ -76,8 +76,8 @@ resource "aws_s3_bucket_policy" "b" {
 						"s3:PutObject"
 				],
 				"Resource": [
-						"${aws_s3_bucket.kops_config_bucket.arn}",
-						"${aws_s3_bucket.kops_config_bucket.arn}/*"
+						"${aws_s3_bucket.ohkops_config_bucket.arn}",
+						"${aws_s3_bucket.ohkops_config_bucket.arn}/*"
 				]
 		}
 	]
@@ -114,11 +114,11 @@ resource "aws_s3_bucket_policy" "c" {
   "Version": "2012-10-17",
   "Statement": [
     {
-        "Sid": "Allow kops user access to k8s cluster configuration bucket",
+        "Sid": "Allow ohkops user access to k8s cluster configuration bucket",
         "Effect": "Allow",
         "Principal": {
             "AWS": [
-                "${aws_iam_user.kops.arn}"
+                "${aws_iam_user.ohkops.arn}"
             ]
         },
         "Action": [

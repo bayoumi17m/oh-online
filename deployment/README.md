@@ -31,7 +31,7 @@ To build our cluster, we need to following tools installed:
 
 **Step 1: Setup a FQDN that will be used for the cluster in Route53**
 
-The Kubernetes cluster that we will setup will use a FQDN hosted in Route53 to expose service endpoints. We will register a new domain name `something.com`.
+The Kubernetes cluster that we will setup will use a FQDN hosted in Route53 to expose service endpoints. We will register a new domain name `ithaqueue.com`.
 
 **Step 2: Prepare kops prereqs**
 
@@ -70,8 +70,8 @@ Default output format [None]: text
 We need some environment variables so kops can know where to access everything. We need to either run these every time or place in our `.bashrc`/`.bash_profile` setting these to be the default.
 
 ```
-export AWS_PROFILE=kops
-export KOPS_STATE_STORE=s3://kops-config
+export AWS_PROFILE=ohkops
+export KOPS_STATE_STORE=s3://queue-ohkops-config
 ```
 
 Now the big boi
@@ -84,13 +84,13 @@ $ kops create cluster --cloud aws \
  --master-size t2.medium \
  --zones us-east-1a \
  --master-zones us-east-1a \
- --dns-zone something.com \
- --vpc vpc-3adeed40 \
+ --dns-zone ithaqueue.com \
+ --vpc vpc-0395fe1dfe8c8e25a \
  --dns public \
  --topology private \
  --networking calico \
  --authorization RBAC \
- --name k8s.something.com \
+ --name k8s.ithaqueue.com \
  --out=k8s \
  --target=terraform --yes
 ```

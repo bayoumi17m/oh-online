@@ -19,7 +19,7 @@ implemented to pass the url down as a prop so I could use it */
 
 // using public ip w/ 5000 port testing backend
 // TODO: In deployment, change to actual address
-const BASE_GRAPHQL_URL = 'http://3.90.41.55:5000';
+const BASE_GRAPHQL_URL = 'https://www.ithaqueue.com/graphql';
 const cache = new InMemoryCache();
 const httpLink = new HttpLink({
     uri: BASE_GRAPHQL_URL
@@ -27,7 +27,7 @@ const httpLink = new HttpLink({
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-    uri: `ws://3.90.41.55:5000/subscriptions`,
+    uri: `ws://www.ithaqueue.com/subscriptions`,
     options: {
         reconnect: true
     }
