@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ohserver
+  namespace: ithaqueue
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  selector:
+    matchLabels:
+      app: ohserver
+  template:
+    metadata:
+      labels:
+        app: ohserver
+    spec:
+      containers:
+      - name: ohserver
+        image: mb2363/ohserver:
+        imagePullPolicy: Always
+        ports:
+        - name: https
+          containerPort: 5000
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ohserver
+  namespace: ithaqueue
+spec:
+  type: ClusterIP
+  ports:
+  - name: https
+    port: 443
+    targetPort: https
+  selector:
+    app: ohserver
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ohserver
+  namespace: ingress-basic
+  annotations:
+    kubernetes.io/tls-acme: 'true'
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.allow-http: "false"
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/acme-challenge-type: dns01
+    certmanager.k8s.io/acme-dns01-provider: route53
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: 200m
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  tls:
+  - hosts:
+    - www.ithaqueue.com
+    secretName: tls-secret
+  rules:
+  - host: www.ithaqueue.com
+    http:
+      paths:
+      - path: /graphql?(.*)
+        backend:
+          serviceName: ohserver
+          servicePort: 443
+      - path: /subscriptions?(.*)
+        backend:
+          serviceName: ohserver
+          servicePort: 443

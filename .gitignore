@@ -1,3 +1,4 @@
+########## JS ########## 
 # Logs
 logs
 *.log
@@ -102,6 +103,16 @@ dist
 
 # TernJS port file
 .tern-port
+
+
+########## General ##########
+
+# AWS + Kube Secrets
+**/terraform.tfstate
+**/.terraform/*
+**/terraform.tfstate.backup
+deployment/build_scripts/setup-secrets.sh
+deployment/build_scripts/kube-secrets.txt
 
 #pycache
 __pycache__
