@@ -1,6 +1,6 @@
 #!/bin/bash
 mkdir ~/.kube
-mv ./deployment-setup/build_scripts/kubeconfig ~/.kube/config
+mv ./deployment/build_scripts/kubeconfig ~/.kube/config
  
 #decrypt the large secrets
 openssl aes-256-cbc -K $encrypted_430356ab93ce_key -iv $encrypted_430356ab93ce_iv -in deployment/build_scripts/kube-secrets.txt.enc -out deployment/build_scripts/kube-secrets.txt -d
