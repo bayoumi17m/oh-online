@@ -42,6 +42,7 @@ spec:
   - name: https
     port: 443
     targetPort: https
+    protocol: TCP
   selector:
     app: ohserver
 ---
@@ -64,7 +65,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
     nginx.ingress.kubernetes.io/send-timeout: "3600"
-    nginx.org/websocket-services: "ohserver"
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
 spec:
   tls:
   - hosts:

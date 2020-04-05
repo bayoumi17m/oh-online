@@ -13,13 +13,15 @@ from overriddenview import OverriddenView
 import logging
 import sys
 
-logger = logging.getLogger("TestLogger")
-logger.setLevel(logging.INFO)
-stdout_handler = logging.StreamHandler(sys.stdout)
-stdout_handler.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-stdout_handler.setFormatter(formatter)
-logger.addHandler(stdout_handler)
+logging.basicConfig(level=logging.DEBUG)
+
+# logger = logging.getLogger(__name__)
+# logger.setLevel(logging.INFO)
+# stdout_handler = logging.StreamHandler(sys.stdout)
+# stdout_handler.setLevel(logging.INFO)
+# formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# stdout_handler.setFormatter(formatter)
+# logger.addHandler(stdout_handler)
 
 
 class CustomBackend(GraphQLCoreBackend):
@@ -34,7 +36,7 @@ view_func = OverriddenView.as_view(
 )
 
 app = Flask(__name__)
-app.logger = logger
+# app.logger = logger
 app.add_url_rule("/", view_func=view_func)
 # CORS(app)
 
@@ -59,5 +61,5 @@ if __name__ == "__main__":
     # app.run(host="0.0.0.0", port=5000)
     from gevent import pywsgi
     from geventwebsocket.handler import WebSocketHandler
-    server = pywsgi.WSGIServer(('0.0.0.0', 5000), app, handler_class=WebSocketHandler, log=logger, error_log=logger)
+    server = pywsgi.WSGIServer(('0.0.0.0', 5000), app, handler_class=WebSocketHandler)#, log=app.logger, error_log=app.logger)
     server.serve_forever()
