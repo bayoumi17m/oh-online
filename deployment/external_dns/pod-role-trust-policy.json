@@ -13,7 +13,7 @@
             "Sid": "",
             "Effect": "Allow",
             "Principal": {
-                "AWS": "aws iam list-roles | grep node"
+                "AWS": "arn:aws:iam::290365077634:role/nodes.k8s.ithaqueue.com"
             },
             "Action": "sts:AssumeRole"
         }

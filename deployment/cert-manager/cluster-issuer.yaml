@@ -16,8 +16,8 @@ spec:
       selector: {}
     # - selector:
     #     dnsZones:
-    #       - www.something.com
+    #       - www.ithaqueue.com
     #   dns01:
     #     route53:
     #       region: us-east-1
-    #       role: aws iam get-role --role-name cert_manager_pod_role
+    #       role: arn:aws:iam::290365077634:role/q_cert_manager_pod_role

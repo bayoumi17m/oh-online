@@ -37,6 +37,7 @@ To delete everything:
 kubectl delete namespace cert-manager
 kubectl get ClusterRole --no-headers=true | awk '/cert-manager-*/{print $1}' | xargs kubectl delete ClusterRole
 kubectl get ClusterRoleBinding --no-headers=true | awk '/cert-manager-*/{print $1}' | xargs kubectl delete ClusterRoleBinding
+kubectl get RoleBinding -n kube-system --no-headers=true | awk '/cert-manager-*/{print $1}' | xargs kubectl delete RoleBinding -n kube-system
 kubectl get Role -n kube-system --no-headers=true | awk '/cert-manager-*/{print $1}' | xargs kubectl delete -n kube-system Role
 kubectl get MutatingWebhookConfiguration --no-headers=true | awk '/cert-manager-*/{print $1}' | xargs kubectl delete MutatingWebhookConfiguration
 kubectl get ValidatingWebhookConfiguration --no-headers=true | awk '/cert-manager-*/{print $1}' | xargs kubectl delete ValidatingWebhookConfiguration

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: ohclient
-  namespace: ithaqueue
+  namespace: ingress-basic
 spec:
   replicas: 1
   strategy:
@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: ohclient
-        image: mb2363/ohclient:
+        image: mb2363/ohclient:8
         imagePullPolicy: Always
         ports:
         - name: https
@@ -35,7 +35,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ohclient
-  namespace: ithaqueue
+  namespace: ingress-basic
 spec:
   type: ClusterIP
   ports:

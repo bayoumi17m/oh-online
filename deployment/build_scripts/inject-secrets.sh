@@ -4,7 +4,7 @@ mv ./deployment/build_scripts/kubeconfig ~/.kube/config
  
 #decrypt the large secrets
 openssl aes-256-cbc -K $encrypted_430356ab93ce_key -iv $encrypted_430356ab93ce_iv -in deployment/build_scripts/kube-secrets.txt.enc -out deployment/build_scripts/kube-secrets.txt -d
- 
+
 # run the script to get the secrets as environment variables
 source ./deployment/build_scripts/kube-secrets.txt
 export $(cut -d= -f1 ./deployment/build_scripts/kube-secrets.txt)

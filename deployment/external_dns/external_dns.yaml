@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: q-external-dns
+  name: external-dns
   namespace: kube-system
 spec:
   selector:
     matchLabels:
-      app: q-external-dns
+      app: external-dns
   strategy:
     type: Recreate
   template:
     metadata:
       annotations:
-        iam.amazonaws.com/role: arn:aws:iam::290365077634:role/external_dns_pod_role # replace with out role
+        iam.amazonaws.com/role: arn:aws:iam::290365077634:role/q_external_dns_pod_role # replace with out role
       labels:
-        app: q-external-dns
+        app: external-dns
     spec:
-      serviceAccountName: q-external-dns
+      serviceAccountName: external-dns
       containers:
       - name: external-dns
         image: registry.opensource.zalan.do/teapot/external-dns:v0.4.8
