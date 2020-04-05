@@ -44,7 +44,7 @@ app.app_protocol = lambda environ_path_info: 'graphql-ws'
 
 CORS(app)
 
-@sockets.route('/subscriptions')
+@sockets.route('/subscriptions/')
 def echo_socket(ws):
     subscription_server.handle(ws)
     return []

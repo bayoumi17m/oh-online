@@ -59,7 +59,7 @@ export default function Course(props) {
     // if (sub_error) return `Error! ${sub_error.message}`;
 
     // console.log("Next step");
-    // console.log(sub_data);
+    console.log(sub_data);
 
 
     const classList = info.Courses;
