@@ -1,6 +1,8 @@
 # oh-online
 Office Hours online to help TAs and students during this time of remote learning
 
+[![Build Status](https://travis-ci.org/bayoumi17m/oh-online.svg?branch=master)](https://travis-ci.org/bayoumi17m/oh-online)
+
 **TODO:** Place sketch of application here
 
 ## TOC

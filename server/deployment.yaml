@@ -77,7 +77,7 @@ spec:
         backend:
           serviceName: ohserver
           servicePort: 443
-      - path: /subscriptions/
+      - path: /subscriptions?(.*)
         backend:
           serviceName: ohserver
           servicePort: 443
