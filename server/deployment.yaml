@@ -39,7 +39,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - name: https
+  - protocol: TCP
     port: 443
     targetPort: https
   selector:
