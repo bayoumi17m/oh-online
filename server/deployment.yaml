@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: ohserver
-        image: mb2363/ohserver:8
+        image: mb2363/ohserver:
         imagePullPolicy: Always
         ports:
         - name: https

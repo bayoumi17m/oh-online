@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
       - name: ohclient
-        image: mb2363/ohclient:8
+        image: mb2363/ohclient:
         imagePullPolicy: Always
         ports:
         - name: https
