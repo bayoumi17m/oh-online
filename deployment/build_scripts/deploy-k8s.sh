@@ -79,7 +79,7 @@ sed -i 's|mb2363/ohclient:|mb2363/ohclient:'$TRAVIS_BUILD_NUMBER'|g' deployment.
 echo -e "${GREEN}==== Updated Client deployment to VER: $TRAVIS_BUILD_NUMBER ====${NC}"
 
 echo -e "${GREEN}==== Deploying Updated Client ====${NC}"
-kubectl apply -f client/deployment.yaml
+kubectl apply -f deployment.yaml
 echo -e "${GREEN}==== Done deploying Client ====${NC}"
 cd ../
 echo ''
