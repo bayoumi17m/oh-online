@@ -113,7 +113,7 @@ class Subscription(graphene.ObjectType):
         course_id = Course.get_query(info=info).filter(
             CourseModel.course_name == course_id
         ).with_entities(CourseModel.course_id).first()[0]
-        return Observable.interval(1000)\
+        return Observable.interval(2000)\
                          .map(lambda i: "{0}".format(
                                 len(Question.get_query(info = info).filter(
                                         QuestionModel.course_id == course_id
