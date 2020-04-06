@@ -2,25 +2,29 @@
     {
         "id": "1",
         "netid": "mb2363",
-        "ta_course_id": "",
-        "zoom_link": "cornell.zoom.us"
+        "ta_course_id": "-1",
+        "zoom_link": "cornell.zoom.us",
+        "courses": "10600, 10580"
     },
     {
         "id": "2",
         "netid": "cjw322",
-        "ta_course_id": "",
-        "zoom_link": "cornell.zoom.us"
+        "ta_course_id": "-1",
+        "zoom_link": "cornell.zoom.us",
+        "courses": "10712"
     },
     {
         "id": "3",
         "netid": "hk592",
-        "ta_course_id": "CS3110",
-        "zoom_link": "cornell.zoom.us"
+        "ta_course_id": "10580",
+        "zoom_link": "cornell.zoom.us",
+        "courses": "10712, 10580"
     },
     {
         "id": "4",
         "netid": "jen67",
-        "ta_course_id": "CS2800",
-        "zoom_link": "cornell.zoom.us"
+        "ta_course_id": "10600",
+        "zoom_link": "cornell.zoom.us",
+        "courses": ""
     }
 ]

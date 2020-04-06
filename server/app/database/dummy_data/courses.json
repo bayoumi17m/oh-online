@@ -1,0 +1,17 @@
+[
+    {
+        "id": "1",
+        "course_id": "10712",
+        "course_name": "CS 1110"
+    },
+    {
+        "id": "2",
+        "course_id": "10580",
+        "course_name": "CS 2110"
+    },
+    {
+        "id": "3",
+        "course_id": "10600",
+        "course_name": "CS 2800"
+    }
+]

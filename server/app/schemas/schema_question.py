@@ -12,10 +12,11 @@ from datetime import datetime
 class QuestionAttributes:
     q_id = graphene.String(description="Global ID of the Question")
     user_id = graphene.ID(description="Global ID of the user")
-    course_id = graphene.String(description="Course ID of the question")
+    course_id = graphene.Int(description="Course ID of the question")
     time_posted = graphene.String(description="Time the question was submitted")
     time_started = graphene.String(description="Time the question was popped off queue")
     time_completed = graphene.String(description="Time the question was finished being answered")
+    question_topic = graphene.String(description="Topic of user's question")
     queue_pos = graphene.Int(description="Position in the queue of the question")
     zoom_link = graphene.String(description="Zoom link for the question")
 
@@ -31,7 +32,7 @@ class Question(SQLAlchemyObjectType, QuestionAttributes):
 class CreateQuestionInput(graphene.InputObjectType, QuestionAttributes):
     """Argurments to create a question"""
     netid = graphene.String(required = True)
-    course_id = graphene.String(required = True)
+    course_id = graphene.Int(required = True)
 
 
 class CreateQuestion(graphene.Mutation):

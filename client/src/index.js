@@ -27,7 +27,7 @@ const httpLink = new HttpLink({
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-    uri: `wss://www.ithaqueue.com/subscriptions`,
+    uri: `wss://www.ithaqueue.com/subscriptions/`,
     options: {
         reconnect: true
     }
@@ -49,7 +49,7 @@ const link = split(
 
 const client = new ApolloClient({
     link: link,
-    cache
+    cache: cache
 });
 
 ReactDOM.render(
