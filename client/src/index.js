@@ -24,7 +24,7 @@ const cache = new InMemoryCache();
 const httpLink = new HttpLink({
     uri: BASE_GRAPHQL_URL,
     options: {
-        withCredentials: true
+
     }
 });
 
