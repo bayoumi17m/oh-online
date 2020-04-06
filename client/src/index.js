@@ -19,7 +19,7 @@ implemented to pass the url down as a prop so I could use it */
 
 // using public ip w/ 5000 port testing backend
 // TODO: In deployment, change to actual address
-const BASE_GRAPHQL_URL = 'https://www.ithaqueue.com/graphql';
+const BASE_GRAPHQL_URL = 'http://3.87.207.155:5000';
 const cache = new InMemoryCache();
 const httpLink = new HttpLink({
     uri: BASE_GRAPHQL_URL
@@ -27,7 +27,7 @@ const httpLink = new HttpLink({
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-    uri: `ws://www.ithaqueue.com/subscriptions`,
+    uri: `ws://3.87.207.155:5000/subscriptions`,
     options: {
         reconnect: true
     }
@@ -49,7 +49,7 @@ const link = split(
 
 const client = new ApolloClient({
     link: link,
-    cache
+    cache: cache
 });
 
 ReactDOM.render(

@@ -13,7 +13,7 @@ class UserAttributes:
     netid = graphene.String(description="NetID of the user")
     ta_course_id = graphene.String(description="Course ID of course that they TA")
     zoom_link = graphene.String(description="Most recent zoom link being used by user")
-    courses = graphene.List(description="Course IDs of the user's courses")
+    courses = graphene.String(description="Course IDs of the user's courses")
 
 
 class User(SQLAlchemyObjectType, UserAttributes):
@@ -27,8 +27,8 @@ class User(SQLAlchemyObjectType, UserAttributes):
 class CourseAttributes:
     course_id = graphene.Int(description="CourseID of the course")
     course_name = graphene.String(description="Course Name (i.e. 'CS 3110')")
-    students = graphene.List(description="NetIDs of enrolled students")
-    teaching_assistants = graphene.List(description="NetIDs of course's TAs")
+    # students = graphene.List(description="NetIDs of enrolled students")
+    teaching_assistants = graphene.List(User, description="NetIDs of course's TAs")
 
 
 class Course(SQLAlchemyObjectType, CourseAttributes):

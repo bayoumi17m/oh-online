@@ -18,14 +18,6 @@ if __name__ == '__main__':
     log.info('Create database {}'.format(base.db_name))
     base.Base.metadata.create_all(base.engine)
 
-    log.info('Insert Question data in database')
-    with open('database/dummy_data/questions.json', 'r') as f:
-        data = literal_eval(f.read())
-        for record in data:
-            question = QuestionModel(**record)
-            base.db_session.add(question)
-        base.db_session.commit()
-
     log.info('Insert User data in database')
     with open('database/dummy_data/users.json', 'r') as f:
         data = literal_eval(f.read())
@@ -33,11 +25,19 @@ if __name__ == '__main__':
             user = UserModel(**record)
             base.db_session.add(user)
         base.db_session.commit()
-    
+
     log.info('Insert Course data in database')
     with open('database/dummy_data/courses.json', 'r') as f:
         data = literal_eval(f.read())
         for record in data:
             course = CourseModel(**record)
             base.db_session.add(course)
+        base.db_session.commit()
+
+    log.info('Insert Question data in database')
+    with open('database/dummy_data/questions.json', 'r') as f:
+        data = literal_eval(f.read())
+        for record in data:
+            question = QuestionModel(**record)
+            base.db_session.add(question)
         base.db_session.commit()

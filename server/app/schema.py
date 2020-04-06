@@ -5,7 +5,7 @@ import graphene
 from graphene_sqlalchemy import SQLAlchemyObjectType, SQLAlchemyConnectionField
 
 from database.model_questions import QuestionModel
-from database.model_users import UserModel
+from database.model_users import UserModel, CourseModel
 from database.base import db_session
 import utils
 from rx import Observable
@@ -14,7 +14,8 @@ import rx
 from schemas.schema_user import (
     User,
     CreateUser,
-    UpdateUser
+    UpdateUser,
+    Course
 )
 from schemas.schema_question import (
     Question,
@@ -42,9 +43,11 @@ class Query(graphene.ObjectType):
     # Get user by netid
     user_netid = graphene.Field(User, netid=graphene.String(required=True))
     # check queue pos by user id -> Similar to /check_pos/<int:user_id>
-    queue_pos = graphene.Field(graphene.Int, netid=graphene.String(required=True), course_id=graphene.String(required=True))
+    queue_pos = graphene.Field(graphene.Int, netid=graphene.String(required=True), course_id=graphene.Int(required=True))
     # check entire course queue -> Similar to /requests/<int:course_id>
-    course_queue = graphene.List(Question, course_id=graphene.String(required=True), active=graphene.Boolean(required=False, default_value=True))
+    course_queue = graphene.List(Question, course_id=graphene.Int(required=True), active=graphene.Boolean(required=False, default_value=True))
+
+    course_name_id = graphene.Field(graphene.Int, course_name=graphene.String(required=True))
 
 
     def resolve_user_netid(self, info, netid):
@@ -83,6 +86,15 @@ class Query(graphene.ObjectType):
             query = query.filter(QuestionModel.queue_pos >= 0)
         
         return query.all()
+    
+
+    def resolve_course_name_id(self, info, course_name):
+        """Course id from a name"""
+        query = Course.get_query(info=info)
+        query = query.filter(CourseModel.course_name == course_name).with_entities(CourseModel.course_id)
+        res = query.first()[0] if query.first() else 0
+
+        return res
 
 
 class Mutation(graphene.ObjectType):
@@ -98,6 +110,9 @@ class Subscription(graphene.ObjectType):
     
 
     def resolve_queue_len(self, info, course_id):
+        course_id = Course.get_query(info=info).filter(
+            CourseModel.course_name == course_id
+        ).with_entities(CourseModel.course_id).first()[0]
         return Observable.interval(1000)\
                          .map(lambda i: "{0}".format(
                                 len(Question.get_query(info = info).filter(

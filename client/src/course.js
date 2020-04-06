@@ -21,14 +21,14 @@ import TextField from '@material-ui/core/TextField';
 import styles from './environment.module.css';
 import info from './Student';
 
-import { useSubscription } from '@apollo/react-hooks';
+import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-// const queue_query = gql`
-// query getPos($netID: String!, $courseID: String!) {
-//     queuePos(netid: $netID, courseId: $courseID)
-// }
-// `;
+const id_query = gql`
+query getId($name: String!) {
+    courseNameId(courseName: $name)
+}
+`;
 
 const queue_sub = gql`
 subscription queueSub($courseID: String){
@@ -39,13 +39,19 @@ subscription queueSub($courseID: String){
 /* Display Course page after selecting a course */
 export default function Course(props) {
     /* Arbitrary json file just to test and learn data-driven principles */
-    // const queueQuery = useQuery(queue_query, {
-    //     variables: { netID: "mb2363", courseID: props.id }
-    // });
+    const name_len = props.id.length;
+    // var subData = { queueLen: -1 };
+
+    const queueQuery = useQuery(id_query, {
+        variables: { name: props.id.slice(0, name_len - 4).concat(" ", props.id.slice(-4)) }
+    });
     // console.log(data);
+    // if (queueQuery.loading) {
+    //     return "Loading...";
+    // }
 
     const sub = useSubscription(queue_sub, {
-        variables: { courseID: props.id }
+        variables: { courseID: props.id.slice(0, name_len - 4).concat(" ", props.id.slice(-4)) }
     });
 
     const sub_data = sub.data;
