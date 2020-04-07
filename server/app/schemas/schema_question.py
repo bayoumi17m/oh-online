@@ -95,5 +95,9 @@ class RemoveQuestion(graphene.Mutation):
         question.update(data)
         db_session.commit()
         question = db_session.query(QuestionModel).filter_by(id = data["id"]).first()
+        remaining = db_session.query(QuestionModel).all()
+        for r in remaining:
+            r.queue_pos -= 1
+        db_session.commit()
 
         return RemoveQuestion(question = question)

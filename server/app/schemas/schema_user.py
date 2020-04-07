@@ -59,7 +59,7 @@ class CreateUser(graphene.Mutation):
         db_session.commit()
 
         return CreateUser(user = user)
-
+        
 
 class UpdateUserInput(graphene.InputObjectType, UserAttributes):
     """arguments to update the user's zoom"""
